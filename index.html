@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>KCS ~ ChatRoom</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <div class="sidebar">
+      <button type="button" onclick="toggleDark()" class="sideButton" id="toggleDark"><i class="fa-solid fa-circle-half-stroke"></i></button>
+      <button type="button" onclick="changeSceme(#f00)" class="sideButton" id="changeRed"><i class="fa-solid fa-droplet"></i></button>
+    </div>
+    <ul id="messages"></ul>
+    <ul id="typing"></ul>
+    <form id="form" action="">
+      <input placeholder="Type Something..." id="input" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      function toggleDark() {
+        document.body.classList.toggle("dark-mode");
+      }
+
+      const username = prompt("Username: ").replace(/:/g, '');
+      var socket = io();
+
+      socket.emit('join', username);
+
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
+
+      var typing = true;
+      var currValue = "";
+      
+      setInterval(() => {
+        if (input.value != currValue) {
+          currValue = input.value;
+          typing = true;
+          setTimeout(() => {
+            if (currValue === input.value) {
+              typing = false;
+            }
+          }, 500);
+        } else {
+          typing = false;
+        }
+
+       // console.log(typing);
+        socket.emit('typing', {username: username, value: typing});
+      }, 1200);
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit('message', {username: username, msg: input.value});
+          input.value = '';
+        }
+      });
+      
+      socket.on('server', (msg) => {
+        var item = document.createElement('li');
+        item.className = 'server';
+        item.textContent = msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      })
+
+      socket.on('message', function(info) {
+        var item = document.createElement('li');
+        item.setAttribute('username', username);
+        item.textContent = `${info.username}: ${info.msg}`;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on('typing', (info) => {
+        document.getElementById('typing').querySelector(`[username=${info.username}]`).remove(); 
+        var item = document.createElement('li');
+        item.setAttribute('username', info.username);
+        item.textContent = `${info.username} is ${info.value ? 'typing' : 'not typing'}`;
+        document.getElementById('typing').appendChild(item);
+        console.log(info);
+      });
+    </script>
+  </body>
+</html>

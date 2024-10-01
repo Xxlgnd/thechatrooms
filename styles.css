@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+* {
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 450;
+  font-style: normal;
+  transition: 0.4s ease-in-out
+}
+
+body {
+  margin: 0;
+  padding-bottom: 3rem;
+  background-color: #f8fafc;
+  color: #262626;
+}
+
+.dark-mode {
+  background-color: #262626;
+  color: #fafafa;
+}
+
+#form {
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.25rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  height: 3.5rem; 
+  box-sizing: border-box; 
+  backdrop-filter: blur(10px);
+}
+
+#input {
+  border: none;
+  padding: 0 1.5rem;
+  flex-grow: 1;
+  border-radius: 2rem;  
+  margin: 0.25rem;
+  background-color: #fafafa;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+#input:focus {
+  outline: none;
+}
+
+body.dark-mode #input {
+  background: #262626;
+  color: #fafafa;
+}
+
+#form > button {
+  background: #333;
+  border: none;
+  padding: 0 1rem;
+  margin: 0.25rem;
+  border-radius: 15px;
+  outline: none;
+  color: #fff;
+  font-weight: 500;
+}
+
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  transition: none;
+}
+
+#messages > li {
+  padding: 0.5rem 1rem;
+}
+
+#messages > li:nth-child(odd) {
+  background: #efefef;
+}
+
+body.dark-mode #messages > li:nth-child(odd) {
+  background: #232323;
+}
+
+.server {
+  font-weight: 600;
+}
+
+.sideButton {
+  border: none;
+  font-size: 1.2vw;
+  padding: 0.7rem;
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+  border-radius: 1000px;
+  margin: 0.5rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+#changeRed {
+  top: 4rem;
+  color: #f00;
+}
+
+body.dark-mode .sideButton {
+  background-color: #232323;
+  color: #fafafa;
+}
+
+#typing {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 4.2rem;
+  margin-left: 1rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #a3a3a3;
+}
+
+body.dark-mode #typing {
+  color: #737373;
+}
+
+#typing li {
+  list-style: none;
+}
